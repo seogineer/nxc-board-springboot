@@ -1,30 +1,32 @@
 package com.seogineer.nxcboardspringboot.domain.dto;
 
 import com.seogineer.nxcboardspringboot.domain.entity.Posts;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-@Getter
+@Data
+@NoArgsConstructor
 public class PostsResponseDto {
 
-    private Long id;
+    private Long postId;
     private String title;
     private String content;
     private String author;
     private String modifiedDate;
+    private Boolean isTop;
+    private PostsSimpleResponseDto prev;
+    private PostsSimpleResponseDto next;
 
     public PostsResponseDto(Posts entity) {
-        id = entity.getId();
+        postId = entity.getPostId();
         title = entity.getTitle();
         content = entity.getContent();
         author = entity.getAuthor();
         modifiedDate = toStringDateTime(entity.getModifiedDate());
+        isTop = entity.getIsTop();
     }
 
     private String toStringDateTime(LocalDateTime localDateTime){

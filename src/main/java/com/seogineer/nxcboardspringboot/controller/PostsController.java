@@ -20,13 +20,13 @@ public class PostsController {
     //전체 조회
     @GetMapping("/posts")
     public ResponseEntity<?> selectAll(@RequestParam(defaultValue = "0") int start){
-        return new ResponseEntity<List<PostsResponseDto>>(postsService.selectAll(), HttpStatus.OK);
+        return new ResponseEntity<List<PostsResponseDto>>(postsService.selectAll(start), HttpStatus.OK);
     }
 
     //조회
     @GetMapping("/posts/{id}")
-    public ResponseEntity<?> select(@PathVariable Long id) {
-        return new ResponseEntity<PostsResponseDto>(postsService.select(id), HttpStatus.OK);
+    public ResponseEntity<?> selectOne(@PathVariable Long id) {
+        return new ResponseEntity<PostsResponseDto>(postsService.selectOne(id), HttpStatus.OK);
     }
 
     //등록
