@@ -2,7 +2,7 @@ package com.seogineer.nxcboardspringboot.domain.repository;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.seogineer.nxcboardspringboot.domain.dto.PageRequest;
+import com.seogineer.nxcboardspringboot.domain.dto.PagingRequest;
 import com.seogineer.nxcboardspringboot.domain.dto.PostsResponseDto;
 import com.seogineer.nxcboardspringboot.domain.entity.Posts;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class PostsRepositoryImpl implements PostsRepositoryCustom {
     private final int LIMIT = 10;
 
     @Override
-    public PageRequest selectAll(int start) {
+    public PagingRequest selectAll(int start) {
         QueryResults<Posts> results = queryFactory.selectFrom(posts)
                 .offset(start).limit(LIMIT)
                 .fetchResults();
@@ -29,7 +29,7 @@ public class PostsRepositoryImpl implements PostsRepositoryCustom {
         List<PostsResponseDto> PostsResponseDtoList = list.stream().map(PostsResponseDto::new).collect(Collectors.toList());
         Long total = results.getTotal();
 
-        return new PageRequest(PostsResponseDtoList, total);
+        return new PagingRequest(PostsResponseDtoList, total);
     }
 
     @Override

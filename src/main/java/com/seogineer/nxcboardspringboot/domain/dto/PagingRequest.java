@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageRequest {
+public class PagingRequest {
     private List<PostsResponseDto> pageList;
     private Long total;
 }

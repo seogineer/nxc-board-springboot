@@ -1,6 +1,6 @@
 package com.seogineer.nxcboardspringboot.controller;
 
-import com.seogineer.nxcboardspringboot.domain.dto.PageRequest;
+import com.seogineer.nxcboardspringboot.domain.dto.PagingRequest;
 import com.seogineer.nxcboardspringboot.domain.dto.PostsResponseDto;
 import com.seogineer.nxcboardspringboot.domain.dto.PostsSaveRequestDto;
 import com.seogineer.nxcboardspringboot.domain.dto.PostsUpdateRequestDto;
@@ -19,7 +19,7 @@ public class PostsController {
     //전체 조회
     @GetMapping("/posts")
     public ResponseEntity<?> selectAll(@RequestParam(defaultValue = "0") int start){
-        return new ResponseEntity<PageRequest>(postsService.selectAll(start), HttpStatus.OK);
+        return new ResponseEntity<PagingRequest>(postsService.selectAll(start), HttpStatus.OK);
     }
 
     //조회

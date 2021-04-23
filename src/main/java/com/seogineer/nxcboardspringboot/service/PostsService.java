@@ -13,10 +13,10 @@ import javax.transaction.Transactional;
 @Service
 public class PostsService {
 
-    private PostsRepository postsRepository;
+    private final PostsRepository postsRepository;
 
     @Transactional
-    public PageRequest selectAll(int start) {
+    public PagingRequest selectAll(int start) {
         return postsRepository.selectAll(start);
     }
 
