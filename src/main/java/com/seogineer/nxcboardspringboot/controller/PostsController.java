@@ -1,5 +1,6 @@
 package com.seogineer.nxcboardspringboot.controller;
 
+import com.seogineer.nxcboardspringboot.domain.dto.PageRequest;
 import com.seogineer.nxcboardspringboot.domain.dto.PostsResponseDto;
 import com.seogineer.nxcboardspringboot.domain.dto.PostsSaveRequestDto;
 import com.seogineer.nxcboardspringboot.domain.dto.PostsUpdateRequestDto;
@@ -8,8 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -20,7 +19,7 @@ public class PostsController {
     //전체 조회
     @GetMapping("/posts")
     public ResponseEntity<?> selectAll(@RequestParam(defaultValue = "0") int start){
-        return new ResponseEntity<List<PostsResponseDto>>(postsService.selectAll(start), HttpStatus.OK);
+        return new ResponseEntity<PageRequest>(postsService.selectAll(start), HttpStatus.OK);
     }
 
     //조회

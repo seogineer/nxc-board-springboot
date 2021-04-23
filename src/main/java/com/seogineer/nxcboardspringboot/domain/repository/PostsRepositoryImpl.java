@@ -1,8 +1,14 @@
 package com.seogineer.nxcboardspringboot.domain.repository;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.seogineer.nxcboardspringboot.domain.dto.PageRequest;
+import com.seogineer.nxcboardspringboot.domain.dto.PostsResponseDto;
 import com.seogineer.nxcboardspringboot.domain.entity.Posts;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.seogineer.nxcboardspringboot.domain.entity.QPosts.posts;
 
@@ -11,14 +17,26 @@ public class PostsRepositoryImpl implements PostsRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    private final int LIMIT = 10;
+
+    @Override
+    public PageRequest selectAll(int start) {
+        QueryResults<Posts> results = queryFactory.selectFrom(posts)
+                .offset(start).limit(LIMIT)
+                .fetchResults();
+
+        List<Posts> list = results.getResults();
+        List<PostsResponseDto> PostsResponseDtoList = list.stream().map(PostsResponseDto::new).collect(Collectors.toList());
+        Long total = results.getTotal();
+
+        return new PageRequest(PostsResponseDtoList, total);
+    }
+
     @Override
     public Posts getPrev(Posts entity) {
         return queryFactory
                 .selectFrom(posts)
                 .where(
-                    //posts.isDeleted.isFalse(),
-                    //posts.isBlocked.isFalse(),
-
                     posts.postId.lt(entity.getPostId())
                 )
                 .orderBy(
@@ -33,9 +51,6 @@ public class PostsRepositoryImpl implements PostsRepositoryCustom {
         return queryFactory
                 .selectFrom(posts)
                 .where(
-                    //posts.isDeleted.isFalse(),
-                    //posts.isBlocked.isFalse(),
-
                     posts.postId.gt(entity.getPostId())
                 )
                 .orderBy(

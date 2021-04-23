@@ -15,6 +15,7 @@ public class PostsResponseDto {
     private String title;
     private String content;
     private String author;
+    private String createdDate;
     private String modifiedDate;
     private Boolean isTop;
     private PostsSimpleResponseDto prev;
@@ -25,6 +26,7 @@ public class PostsResponseDto {
         title = entity.getTitle();
         content = entity.getContent();
         author = entity.getAuthor();
+        createdDate = toStringDateTime(entity.getCreatedDate());
         modifiedDate = toStringDateTime(entity.getModifiedDate());
         isTop = entity.getIsTop();
     }

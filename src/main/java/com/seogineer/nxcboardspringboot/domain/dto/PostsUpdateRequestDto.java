@@ -4,6 +4,7 @@ import com.seogineer.nxcboardspringboot.domain.entity.Posts;
 import lombok.*;
 
 import javax.persistence.Column;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
