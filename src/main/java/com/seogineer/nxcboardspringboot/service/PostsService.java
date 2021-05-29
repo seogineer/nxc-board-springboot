@@ -1,8 +1,12 @@
 package com.seogineer.nxcboardspringboot.service;
 
-import com.seogineer.nxcboardspringboot.domain.dto.*;
-import com.seogineer.nxcboardspringboot.domain.entity.Posts;
-import com.seogineer.nxcboardspringboot.domain.repository.PostsRepository;
+import com.seogineer.nxcboardspringboot.domain.dto.request.PagingRequest;
+import com.seogineer.nxcboardspringboot.domain.dto.request.BoardCreateRequest;
+import com.seogineer.nxcboardspringboot.domain.dto.request.BoardUpdateRequest;
+import com.seogineer.nxcboardspringboot.domain.dto.response.BoardResponse;
+import com.seogineer.nxcboardspringboot.domain.dto.response.BoardSimpleResponse;
+import com.seogineer.nxcboardspringboot.domain.entity.Board;
+import com.seogineer.nxcboardspringboot.domain.repository.BoardRepository;
 import com.seogineer.nxcboardspringboot.utils.ModelMapperUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,53 +17,53 @@ import javax.transaction.Transactional;
 @Service
 public class PostsService {
 
-    private final PostsRepository postsRepository;
+    private final BoardRepository boardRepository;
 
     @Transactional
     public PagingRequest selectAll(int start) {
-        return postsRepository.selectAll(start);
+        return boardRepository.selectAll(start);
     }
 
     @Transactional
-    public PostsResponseDto selectOne(Long id){
-        Posts posts = postsRepository.findById(id)
+    public BoardResponse selectOne(Long id){
+        Board board = boardRepository.findById(id)
                             .orElseThrow(() -> new IllegalAccessError("[id=" + id + "] 해당 게시글이 존재하지 않습니다."));
 
-        Posts prev = postsRepository.getPrev(posts);
-        Posts next = postsRepository.getNext(posts);
+        Board prev = boardRepository.getPrev(board);
+        Board next = boardRepository.getNext(board);
 
-        PostsResponseDto response = ModelMapperUtil.map(posts, PostsResponseDto.class);
+        BoardResponse response = ModelMapperUtil.map(board, BoardResponse.class);
 
         if(prev != null){
-            response.setPrev(ModelMapperUtil.map(prev, PostsSimpleResponseDto.class));
+            response.setPrev(ModelMapperUtil.map(prev, BoardSimpleResponse.class));
         }
 
         if(next != null){
-            response.setNext(ModelMapperUtil.map(next, PostsSimpleResponseDto.class));
+            response.setNext(ModelMapperUtil.map(next, BoardSimpleResponse.class));
         }
 
         return response;
     }
 
     @Transactional
-    public Long save(PostsSaveRequestDto dto){
-        return postsRepository.save(dto.toEntity()).getPostId();
+    public Long save(BoardCreateRequest dto){
+        return boardRepository.save(dto.toEntity()).getBoardId();
     }
 
     @Transactional
-    public Long update(Long id, PostsUpdateRequestDto dto){
-        Posts posts = postsRepository.findById(id)
+    public Long update(Long id, BoardUpdateRequest dto){
+        Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalAccessError("[id=" + id + "] 해당 게시글이 존재하지 않습니다."));
-        posts.update(dto.getTitle(), dto.getContent(), dto.getIsTop());
+        board.update(dto.getTitle(), dto.getContent(), dto.getIsTop());
 
         return id;
     }
 
     @Transactional
     public void delete(Long id){
-        Posts posts = postsRepository.findById(id)
+        Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalAccessError("[id=" + id + "] 해당 게시글이 존재하지 않습니다."));
-        postsRepository.delete(posts);
+        boardRepository.delete(board);
     }
 
 }

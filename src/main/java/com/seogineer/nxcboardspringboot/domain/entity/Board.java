@@ -5,17 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @NoArgsConstructor
 @Getter
 @Entity
 //@TableComment(value = "게시판", extend = "BaseTimeEntity")
-public class Posts extends BaseTimeEntity {
+public class Board extends BaseEntity {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@ColumnComment("게시글 일련번호")
-    private Long postId;
+    private Long boardId;
 
     @Column(length = 500, nullable = false)
     //@ColumnComment("제목")
@@ -33,8 +32,7 @@ public class Posts extends BaseTimeEntity {
     //@ColumnComment("상단 고정 여부")
     private Boolean isTop;
 
-    @Builder
-    public Posts(String title, String content, String author, boolean isTop) {
+    public Board(String title, String content, String author, boolean isTop) {
         this.title = title;
         this.content = content;
         this.author = author;

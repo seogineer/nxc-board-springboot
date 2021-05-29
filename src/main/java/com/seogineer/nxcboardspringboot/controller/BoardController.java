@@ -1,9 +1,9 @@
 package com.seogineer.nxcboardspringboot.controller;
 
-import com.seogineer.nxcboardspringboot.domain.dto.PagingRequest;
-import com.seogineer.nxcboardspringboot.domain.dto.PostsResponseDto;
-import com.seogineer.nxcboardspringboot.domain.dto.PostsSaveRequestDto;
-import com.seogineer.nxcboardspringboot.domain.dto.PostsUpdateRequestDto;
+import com.seogineer.nxcboardspringboot.domain.dto.request.PagingRequest;
+import com.seogineer.nxcboardspringboot.domain.dto.response.BoardResponse;
+import com.seogineer.nxcboardspringboot.domain.dto.request.BoardCreateRequest;
+import com.seogineer.nxcboardspringboot.domain.dto.request.BoardUpdateRequest;
 import com.seogineer.nxcboardspringboot.service.PostsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-public class PostsController {
+public class BoardController {
 
     private PostsService postsService;
 
@@ -25,18 +25,18 @@ public class PostsController {
     //조회
     @GetMapping("/posts/{id}")
     public ResponseEntity<?> selectOne(@PathVariable Long id) {
-        return new ResponseEntity<PostsResponseDto>(postsService.selectOne(id), HttpStatus.OK);
+        return new ResponseEntity<BoardResponse>(postsService.selectOne(id), HttpStatus.OK);
     }
 
     //등록
     @PostMapping("/posts")
-    public ResponseEntity<?> save(@RequestBody PostsSaveRequestDto dto){
+    public ResponseEntity<?> save(@RequestBody BoardCreateRequest dto){
         return new ResponseEntity<Long>(postsService.save(dto), HttpStatus.CREATED);
     }
 
     //수정
     @PutMapping("/posts/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto dto){
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody BoardUpdateRequest dto){
         return new ResponseEntity<Long>(postsService.update(id, dto), HttpStatus.CREATED);
     }
 

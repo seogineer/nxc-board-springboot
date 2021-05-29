@@ -1,6 +1,6 @@
-package com.seogineer.nxcboardspringboot.domain.dto;
+package com.seogineer.nxcboardspringboot.domain.dto.response;
 
-import com.seogineer.nxcboardspringboot.domain.entity.Posts;
+import com.seogineer.nxcboardspringboot.domain.entity.Board;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Data
 @NoArgsConstructor
-public class PostsResponseDto {
+public class BoardResponse {
 
     private Long postId;
     private String title;
@@ -18,11 +18,11 @@ public class PostsResponseDto {
     private String createdDate;
     private String modifiedDate;
     private Boolean isTop;
-    private PostsSimpleResponseDto prev;
-    private PostsSimpleResponseDto next;
+    private BoardSimpleResponse prev;
+    private BoardSimpleResponse next;
 
-    public PostsResponseDto(Posts entity) {
-        postId = entity.getPostId();
+    public BoardResponse(Board entity) {
+        postId = entity.getBoardId();
         title = entity.getTitle();
         content = entity.getContent();
         author = entity.getAuthor();

@@ -1,8 +1,8 @@
 package com.seogineer.nxcboardspringboot.service;
 
-import com.seogineer.nxcboardspringboot.domain.dto.PostsSaveRequestDto;
-import com.seogineer.nxcboardspringboot.domain.entity.Posts;
-import com.seogineer.nxcboardspringboot.domain.repository.PostsRepository;
+import com.seogineer.nxcboardspringboot.domain.dto.request.BoardCreateRequest;
+import com.seogineer.nxcboardspringboot.domain.entity.Board;
+import com.seogineer.nxcboardspringboot.domain.repository.BoardRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,21 +17,21 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PostsServiceTest {
+public class BoardServiceTest {
     @Autowired
     private PostsService postsService;
     @Autowired
-    private PostsRepository postsRepository;
+    private BoardRepository boardRepository;
 
     @After
     public void cleanup(){
-        postsRepository.deleteAll();
+        boardRepository.deleteAll();
     }
 
     @Test
     public void Dto데이터가_posts테이블에_저장된다(){
         //given
-        PostsSaveRequestDto dto = PostsSaveRequestDto.builder()
+        BoardCreateRequest dto = BoardCreateRequest.builder()
                 .title("테스트 제목")
                 .content("테스트 테스트 테스트")
                 .author("테스터")
@@ -42,17 +42,17 @@ public class PostsServiceTest {
         postsService.save(dto);
 
         //then
-        Posts posts = postsRepository.findAll().get(0);
-        assertThat(posts.getTitle()).isEqualTo(dto.getTitle());
-        assertThat(posts.getContent()).isEqualTo(dto.getContent());
-        assertThat(posts.getAuthor()).isEqualTo(dto.getAuthor());
-        assertThat(posts.getIsTop()).isFalse();
+        Board board = boardRepository.findAll().get(0);
+        assertThat(board.getTitle()).isEqualTo(dto.getTitle());
+        assertThat(board.getContent()).isEqualTo(dto.getContent());
+        assertThat(board.getAuthor()).isEqualTo(dto.getAuthor());
+        assertThat(board.getIsTop()).isFalse();
     }
 
     @Test
     public void posts테이블을_전체조회한다(){
         //given
-        PostsSaveRequestDto dto = PostsSaveRequestDto.builder()
+        BoardCreateRequest dto = BoardCreateRequest.builder()
                 .title("테스트 제목")
                 .content("테스트 테스트 테스트")
                 .author("테스터")
@@ -65,7 +65,7 @@ public class PostsServiceTest {
         }
 
         //then
-        List<Posts> postsList = postsRepository.findAll();
-        assertEquals(10, postsList.size());
+        List<Board> boardList = boardRepository.findAll();
+        assertEquals(10, boardList.size());
     }
 }
