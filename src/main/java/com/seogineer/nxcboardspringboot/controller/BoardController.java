@@ -4,7 +4,7 @@ import com.seogineer.nxcboardspringboot.domain.dto.request.PagingRequest;
 import com.seogineer.nxcboardspringboot.domain.dto.response.BoardResponse;
 import com.seogineer.nxcboardspringboot.domain.dto.request.BoardCreateRequest;
 import com.seogineer.nxcboardspringboot.domain.dto.request.BoardUpdateRequest;
-import com.seogineer.nxcboardspringboot.service.PostsService;
+import com.seogineer.nxcboardspringboot.service.BoardService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,36 +14,36 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class BoardController {
 
-    private PostsService postsService;
+    private BoardService boardService;
 
-    //전체 조회
-    @GetMapping("/posts")
-    public ResponseEntity<?> selectAll(@RequestParam(defaultValue = "0") int start){
-        return new ResponseEntity<PagingRequest>(postsService.selectAll(start), HttpStatus.OK);
-    }
+    //목록 조회
+//    @GetMapping("/board")
+//    public ResponseEntity<?> readAll(@RequestParam(defaultValue = "0") int start){
+//        return new ResponseEntity<PagingRequest>(boardService.readAll(start), HttpStatus.OK);
+//    }
 
-    //조회
-    @GetMapping("/posts/{id}")
-    public ResponseEntity<?> selectOne(@PathVariable Long id) {
-        return new ResponseEntity<BoardResponse>(postsService.selectOne(id), HttpStatus.OK);
+    //상세 조회
+    @GetMapping("/board/{id}")
+    public ResponseEntity<?> readOne(@PathVariable Long id) {
+        return new ResponseEntity<BoardResponse>(boardService.readOne(id), HttpStatus.OK);
     }
 
     //등록
-    @PostMapping("/posts")
-    public ResponseEntity<?> save(@RequestBody BoardCreateRequest dto){
-        return new ResponseEntity<Long>(postsService.save(dto), HttpStatus.CREATED);
+    @PostMapping("/board")
+    public ResponseEntity<?> create(@RequestBody BoardCreateRequest dto){
+        return new ResponseEntity<Long>(boardService.create(dto), HttpStatus.CREATED);
     }
 
     //수정
-    @PutMapping("/posts/{id}")
+    @PutMapping("/board/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody BoardUpdateRequest dto){
-        return new ResponseEntity<Long>(postsService.update(id, dto), HttpStatus.CREATED);
+        return new ResponseEntity<Long>(boardService.update(id, dto), HttpStatus.CREATED);
     }
 
     //삭제
-    @DeleteMapping("/posts/{id}")
+    @DeleteMapping("/board/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        postsService.delete(id);
+        boardService.delete(id);
         return new ResponseEntity<Long>(id, HttpStatus.NO_CONTENT);
     }
 

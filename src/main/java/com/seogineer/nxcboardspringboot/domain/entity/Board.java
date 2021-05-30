@@ -20,7 +20,6 @@ public class Board extends BaseEntity {
     //@ColumnComment("제목")
     private String title;
 
-    @Lob
     @Column(columnDefinition = "TEXT", nullable = false)
     //@ColumnComment("내용")
     private String content;
@@ -28,20 +27,26 @@ public class Board extends BaseEntity {
     //@ColumnComment("작성자")
     private String author;
 
-    @Column(nullable = false)
-    //@ColumnComment("상단 고정 여부")
-    private Boolean isTop;
-
-    public Board(String title, String content, String author, boolean isTop) {
+    public Board (String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.isTop = isTop;
     }
 
-    public void update (String title, String content, boolean isTop) {
+    public Board createBoard(
+            String title,
+            String content,
+            String author
+    ){
+        return new Board(
+                title,
+                content,
+                author
+        );
+    }
+
+    public void updateBoard (String title, String content) {
         this.title = title;
         this.content = content;
-        this.isTop = isTop;
     }
 }

@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 public class BoardServiceTest {
     @Autowired
-    private PostsService postsService;
+    private BoardService boardService;
     @Autowired
     private BoardRepository boardRepository;
 
@@ -29,39 +29,36 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void Dto데이터가_posts테이블에_저장된다(){
+    public void Dto데이터가_board테이블에_저장된다(){
         //given
-        BoardCreateRequest dto = BoardCreateRequest.builder()
-                .title("테스트 제목")
-                .content("테스트 테스트 테스트")
-                .author("테스터")
-                .isTop(false)
-                .build();
+        BoardCreateRequest dto = new BoardCreateRequest(
+                "test title",
+                "test content",
+                "test author"
+        );
 
         //when
-        postsService.save(dto);
+        boardService.create(dto);
 
         //then
         Board board = boardRepository.findAll().get(0);
         assertThat(board.getTitle()).isEqualTo(dto.getTitle());
         assertThat(board.getContent()).isEqualTo(dto.getContent());
         assertThat(board.getAuthor()).isEqualTo(dto.getAuthor());
-        assertThat(board.getIsTop()).isFalse();
     }
 
     @Test
     public void posts테이블을_전체조회한다(){
         //given
-        BoardCreateRequest dto = BoardCreateRequest.builder()
-                .title("테스트 제목")
-                .content("테스트 테스트 테스트")
-                .author("테스터")
-                .isTop(false)
-                .build();
+        BoardCreateRequest dto = new BoardCreateRequest(
+                "test title",
+                "test content",
+                "test author"
+        );
 
         //when
         for(int i = 0; i < 10; i++){
-            postsService.save(dto);
+            boardService.create(dto);
         }
 
         //then

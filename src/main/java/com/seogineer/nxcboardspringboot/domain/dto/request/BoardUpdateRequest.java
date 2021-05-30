@@ -6,7 +6,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardUpdateRequest {
+
     private String title;
+
     private String content;
-    private Boolean isTop;
+
 }

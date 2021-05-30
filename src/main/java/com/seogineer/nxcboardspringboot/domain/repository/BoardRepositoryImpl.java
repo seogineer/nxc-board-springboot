@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.seogineer.nxcboardspringboot.domain.entity.QPosts.posts;
+import static com.seogineer.nxcboardspringboot.domain.entity.QBoard.board;
 
 @RequiredArgsConstructor
 public class BoardRepositoryImpl implements BoardRepositoryCustom {
@@ -19,29 +19,29 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     private final int LIMIT = 10;
 
-    @Override
-    public PagingRequest selectAll(int start) {
-        QueryResults<Board> results = queryFactory.selectFrom(posts)
-                .offset(start).limit(LIMIT)
-                .fetchResults();
-
-        List<Board> list = results.getResults();
-        List<BoardResponse> boardResponseList = list.stream().map(BoardResponse::new).collect(Collectors.toList());
-        Long total = results.getTotal();
-
-        return new PagingRequest(boardResponseList, total);
-    }
+//    @Override
+//    public PagingRequest readAll(int start) {
+//        QueryResults<Board> results = queryFactory.selectFrom(board)
+//                .offset(start).limit(LIMIT)
+//                .fetchResults();
+//
+//        List<Board> list = results.getResults();
+//        //List<BoardResponse> boardResponseList = list.stream().map(BoardResponse::new).collect(Collectors.toList());
+//        List<BoardResponse> boardResponseList = new List<>();
+//        Long total = results.getTotal();
+//
+//        return new PagingRequest(boardResponseList, total);
+//    }
 
     @Override
     public Board getPrev(Board entity) {
         return queryFactory
-                .selectFrom(posts)
+                .selectFrom(board)
                 .where(
-                    posts.postId.lt(entity.getBoardId())
+                    board.boardId.lt(entity.getBoardId())
                 )
                 .orderBy(
-                    posts.isTop.desc(),
-                    posts.postId.desc()
+                    board.boardId.desc()
                 )
                 .fetchFirst();
     }
@@ -49,13 +49,12 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     @Override
     public Board getNext(Board entity) {
         return queryFactory
-                .selectFrom(posts)
+                .selectFrom(board)
                 .where(
-                    posts.postId.gt(entity.getBoardId())
+                    board.boardId.gt(entity.getBoardId())
                 )
                 .orderBy(
-                    posts.isTop.desc(),
-                    posts.postId.asc()
+                    board.boardId.asc()
                 )
                 .fetchFirst();
     }
